@@ -1,127 +1,128 @@
 <?php
 
-namespace app\controllers;
+	namespace app\controllers;
 
-use Yii;
-use app\models\Crop;
-use app\models\CropSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+	use app\models\Crop;
+	use app\models\CropSearch;
+	use Yii;
+	use yii\filters\VerbFilter;
+	use yii\web\Controller;
+	use yii\web\NotFoundHttpException;
 
-/**
- * CropController implements the CRUD actions for Crop model.
- */
-class CropController extends Controller
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+	/**
+	 * CropController implements the CRUD actions for Crop model.
+	 */
+	class CropController extends Controller
+	{
+		/**
+		 * {@inheritdoc}
+		 */
+		public function behaviors()
+		{
+			return [
+				'verbs' => [
+					'class' => VerbFilter::className(),
+					'actions' => [
+						'delete' => ['POST'],
+					],
+				],
+			];
+		}
 
-    /**
-     * Lists all Crop models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new CropSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		/**
+		 * Lists all Crop models.
+		 * @return mixed
+		 */
+		public function actionIndex()
+		{
+			$searchModel = new CropSearch();
+			$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+			return $this->render('index', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+			]);
+		}
 
-    /**
-     * Displays a single Crop model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+		/**
+		 * Displays a single Crop model.
+		 * @param integer $id
+		 * @return mixed
+		 * @throws NotFoundHttpException if the model cannot be found
+		 */
+		public function actionView($id)
+		{
+			return $this->render('view', [
+				'model' => $this->findModel($id),
+			]);
+		}
 
-    /**
-     * Creates a new Crop model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Crop();
+		/**
+		 * Finds the Crop model based on its primary key value.
+		 * If the model is not found, a 404 HTTP exception will be thrown.
+		 * @param integer $id
+		 * @return Crop the loaded model
+		 * @throws NotFoundHttpException if the model cannot be found
+		 */
+		protected function findModel($id)
+		{
+			if (($model = Crop::findOne($id)) !== null) {
+				return $model;
+			}
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+		/**
+		 * Creates a new Crop model.
+		 * If creation is successful, the browser will be redirected to the 'view' page.
+		 * @return mixed
+		 */
+		public function actionCreate()
+		{
+			$model = new Crop();
+			$model->created_at = date('Y-m-d H:i:s');
 
-    /**
-     * Updates an existing Crop model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+			if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+			return $this->render('create', [
+				'model' => $model,
+			]);
+		}
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
+		/**
+		 * Updates an existing Crop model.
+		 * If update is successful, the browser will be redirected to the 'view' page.
+		 * @param integer $id
+		 * @return mixed
+		 * @throws NotFoundHttpException if the model cannot be found
+		 */
+		public function actionUpdate($id)
+		{
+			$model = $this->findModel($id);
 
-    /**
-     * Deletes an existing Crop model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+			if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
 
-        return $this->redirect(['index']);
-    }
+			return $this->render('update', [
+				'model' => $model,
+			]);
+		}
 
-    /**
-     * Finds the Crop model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Crop the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Crop::findOne($id)) !== null) {
-            return $model;
-        }
+		/**
+		 * Deletes an existing Crop model.
+		 * If deletion is successful, the browser will be redirected to the 'index' page.
+		 * @param integer $id
+		 * @return mixed
+		 * @throws NotFoundHttpException if the model cannot be found
+		 */
+		public function actionDelete($id)
+		{
+			$this->findModel($id)->delete();
 
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-}
+			return $this->redirect(['index']);
+		}
+	}

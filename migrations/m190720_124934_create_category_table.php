@@ -23,6 +23,6 @@ class m190720_124934_create_category_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%category}}');
+        $this->dropTable('{{%tbl_category}}');
     }
 }
