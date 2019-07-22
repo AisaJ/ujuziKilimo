@@ -8,53 +8,13 @@
 	use app\models\Crop;
 	use Throwable;
 	use Yii;
-	use yii\filters\VerbFilter;
 	use yii\helpers\Json;
-	use yii\rest\ActiveController;
-	use yii\web\BadRequestHttpException;
 	use yii\web\Response;
 
-	class CropRestController extends ActiveController
+	class CropRestController extends BaseRestController
 	{
 		public $modelClass = "app\models\Crop";
 
-		public function beforeAction($action)
-		{
-
-			Yii::$app->response->format = Response::FORMAT_JSON;
-			try {
-				return parent::beforeAction($action);
-			} catch (BadRequestHttpException $e) {
-			}
-		}
-
-		public function actions()
-		{
-			$actions = parent::actions();
-			unset($actions['create']);
-			unset($actions['update']);
-			unset($actions['delete']);
-			unset($actions['view']);
-			unset($actions['index']);
-			return $actions;
-
-		}
-
-
-		public function behaviors()
-		{
-			return [
-				'verbs' => [
-					'class' => VerbFilter::className(),
-					'actions' => [
-						'make' => ['POST'],
-						'get-all' => ['GET'],
-						'get-one' => ['GET'],
-						'delete' => ['GET'],
-					],
-				],
-			];
-		}
 
 		public function actionCreate()
 		{
@@ -173,7 +133,7 @@
 			$attributes = yii::$app->request->get();
 			$cropId = $attributes['id'];
 			$cropFromDB = Crop::findOne($cropId);
-			if ($cropFromDB !=null) {
+			if ($cropFromDB != null) {
 				try {
 					$cropFromDB->delete();
 				} catch (yii\db\StaleObjectException $e) {

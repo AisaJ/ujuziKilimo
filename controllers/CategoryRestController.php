@@ -7,37 +7,14 @@
 	use app\models\Category;
 	use Throwable;
 	use Yii;
-	use yii\filters\VerbFilter;
-	use yii\rest\ActiveController;
 	use yii\web\Response;
 
-	class CategoryRestController extends ActiveController
+	class CategoryRestController extends BaseRestController
 	{
 		public $modelClass = "app\models\Category";
 
-		public function behaviors()
-		{
-			return [
-				'verbs' => [
-					'class' => VerbFilter::className(),
-					'actions' => [
-						'create' => ['POST'],
-						'get-all' => ['GET'],
-						'get-one' => ['GET'],
-						'delete' => ['GET'],
-					],
-				],
-			];
-		}
 
-		public function beforeAction($action)
-		{
-
-			Yii::$app->response->format = Response::FORMAT_JSON;
-			return parent::beforeAction($action);
-		}
-
-		public function actionMake()
+		public function actionCreate()
 		{
 			Yii::$app->response->format = Response:: FORMAT_JSON;
 
