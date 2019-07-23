@@ -11,7 +11,7 @@
 	use yii\helpers\Json;
 	use yii\web\Response;
 
-	class CropRestController extends BaseRestController
+		class CropRestController extends BaseRestController
 	{
 		public $modelClass = "app\models\Crop";
 
@@ -22,7 +22,15 @@
 			$attributes = yii::$app->request->post();
 			$crop->attributes = $attributes;
 			$crop->created_at = date('Y-m-d H:i:s');
+
+			if(isset($attributes['category_id']))
+			{
 			$category_id = $attributes['category_id'];
+				}
+			else
+			{
+				return array('status' => false, 'info' => 'Category_id is missing in the request made');
+			}
 
 			$transaction = Crop::getDb()->beginTransaction();
 
