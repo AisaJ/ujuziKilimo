@@ -14,10 +14,11 @@ class m190720_113733_create_crop_table extends Migration
     {
         $this->createTable('{{%tbl_crop}}', [
             'id' => $this->primaryKey(),
+            'category_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'Description' => $this->text()->notNull(),
-            'updated_at' => $this->timestamp()->notNull(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp(),
+            'created_at' => $this->timestamp(),
         ]);
     }
 
@@ -26,6 +27,6 @@ class m190720_113733_create_crop_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%crop}}');
+        $this->dropTable('{{%tbl_crop}}');
     }
 }
