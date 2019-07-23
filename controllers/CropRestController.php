@@ -43,7 +43,7 @@ class CropRestController extends ActiveController
 
     }
 
-    public function actionGetSms()
+    public function actionGetAll()
     {
         Yii::$app->response->format = Response:: FORMAT_JSON;
         $crop = Crop::find()->all();
@@ -56,7 +56,7 @@ class CropRestController extends ActiveController
     }
 
 
-    public function actionUpdateSms()
+    public function actionUpdateCrop()
     {
 
         Yii::$app->response->format = Response:: FORMAT_JSON;
@@ -76,7 +76,7 @@ class CropRestController extends ActiveController
     }
 
 
-    public function actionDeleteSSms()
+    public function actionDeleteCrop()
     {
 
         $crop = new Crop();
